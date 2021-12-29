@@ -9,7 +9,13 @@ import java.util.Optional;
 
 public class MemberService {
 
-    private final MemberRepository memeberRepository = new MemoryMemberRepository();
+    private final MemberRepository memeberRepository;
+
+    // memeberRepository를 외부에서 넣어 줌
+    // DI; Dependency Injection; 의존성 주입
+    public MemberService(MemberRepository memeberRepository) {
+        this.memeberRepository = memeberRepository;
+    }
 
     /**
      * 회원 가입
@@ -22,8 +28,8 @@ public class MemberService {
         validateDuplicateMember(member);
 
         // #2 - 직접 꺼내서 비교
-        Optional<Member> result = memeberRepository.findByName(member.getName());
-        Member member1 = result.get();
+        //Optional<Member> result = memeberRepository.findByName(member.getName());
+        //Member member1 = result.get();
 
         memeberRepository.save(member);
         return member.getId();
