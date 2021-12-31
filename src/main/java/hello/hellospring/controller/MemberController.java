@@ -1,8 +1,11 @@
 package hello.hellospring.controller;
 
+import hello.hellospring.domain.Member;
 import hello.hellospring.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class MemberController {
@@ -17,6 +20,28 @@ public class MemberController {
         this.memberService = memberService;
     }
 
+    // 데이터 조회할 때 GET
+    @GetMapping("/members/new")
+    public String createForm() {
+        // 아무 일 안하고 members/createMemberForm로 이동
+        return "members/createMemberForm";
+    }
+
+    // 데이터 등록할 때 POST
+    @PostMapping("/members/new")
+    public String create(MemberForm form) {
+        Member member = new Member();
+        member.setName(form.getName());
+
+        // System.out.println("member = " + member.getName() + " " + member.getId());
+
+        memberService.join(member);
+
+        return "redirect:/";  // 회원가입 끝나면 홈 화면으로 보냄
+    }
+
+}
+
     // #2. DI 필드 주입 > 별로 안좋음
     // @Autowired private MemberService memberService;
 
@@ -28,4 +53,3 @@ public class MemberController {
         this.memberService = memberService;
     }
     */
-}
