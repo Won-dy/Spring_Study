@@ -9,12 +9,12 @@ import java.util.Optional;
 
 public class MemberService {
 
-    private final MemberRepository memeberRepository;
+    private final MemberRepository memberRepository;
 
-    // memeberRepository를 외부에서 넣어 줌
+    // memberRepository를 외부에서 넣어 줌
     // DI; Dependency Injection; 의존성 주입
-    public MemberService(MemberRepository memeberRepository) {
-        this.memeberRepository = memeberRepository;
+    public MemberService(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
     }
 
     /**
@@ -28,17 +28,17 @@ public class MemberService {
         validateDuplicateMember(member);
 
         // #2 - 직접 꺼내서 비교
-        //Optional<Member> result = memeberRepository.findByName(member.getName());
+        //Optional<Member> result = memberRepository.findByName(member.getName());
         //Member member1 = result.get();
 
-        memeberRepository.save(member);
+        memberRepository.save(member);
         return member.getId();
     }
 
     // #1 - ifPresent(Optional의 메소드): null이 아닌 값이 있으면 로직 동작
     private void validateDuplicateMember(Member member) {
         // 로직이 있는 경우 메소드로 따로 뽑는 것이 좋다
-        memeberRepository.findByName(member.getName())
+        memberRepository.findByName(member.getName())
                 .ifPresent(m -> {
                     throw new IllegalStateException("이미 존재하는 회원입니다.");
                 });
@@ -48,11 +48,11 @@ public class MemberService {
      * 전체 회원 조회
      */
     public List<Member> findMembers() {
-        return memeberRepository.findAll();
+        return memberRepository.findAll();
     }
 
     public Optional<Member> findOne(Long memberId) {
-        return memeberRepository.findById(memberId);
+        return memberRepository.findById(memberId);
     }
 
 }
