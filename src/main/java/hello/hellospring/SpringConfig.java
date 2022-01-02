@@ -12,6 +12,20 @@ import javax.sql.DataSource;
 @Configuration
 public class SpringConfig {
 
+    // 자동으로 만들어 놓은 구현체 등록
+    private final MemberRepository memberRepository;
+
+    @Autowired
+    public SpringConfig(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
+    }
+
+    @Bean
+    public MemberService memberService() {
+        return new MemberService(memberRepository);
+    }
+
+    /*
     private EntityManager em;
 
     @Autowired
@@ -19,14 +33,12 @@ public class SpringConfig {
         this.em = em;
     }
 
-    /*
     private DataSource dataSource;
 
     @Autowired
     public SpringConfig(DataSource dataSource) {
         this.dataSource = dataSource;
     }
-*/
 
     @Bean
     public MemberService memberService() {
@@ -44,4 +56,5 @@ public class SpringConfig {
         // return new JdbcMemberRepository(dataSource);  // JDBC
         //return new MemoryMemberRepository();  // 메모리
     }
+*/
 }
